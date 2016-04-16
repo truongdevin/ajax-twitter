@@ -17,13 +17,23 @@ FollowToggle.prototype.bindEvents = function() {
 FollowToggle.prototype.render = function() {
   if (this.followState === 'followed') {
     this.$el.text("Followed!");
+    this.$el.attr("disabled", false);
+  } else if (this.followState === 'following' || this.followState === 'unfollowing') {
+    this.$el.attr("disabled", true);   //////// SET DISABLED TRUE
   } else {
     this.$el.text("Unfollowed!");
+    this.$el.attr("disabled", false);
   }
 };
 
+
 FollowToggle.prototype.changeState = function() {
-  if (this.followState === 'followed') {
+  // if (this.followState === 'followed') {
+  //   this.followState = 'unfollowed';
+  // } else {
+  //   this.followState = 'followed';
+  // }
+  if (this.followState === 'unfollowing') {
     this.followState = 'unfollowed';
   } else {
     this.followState = 'followed';
@@ -33,11 +43,20 @@ FollowToggle.prototype.changeState = function() {
 FollowToggle.prototype.handleClick = function(e) {
   e.preventDefault();
   var that = this;
+
   if (this.followState === "followed"){
+
+    this.followState = "unfollowing";  ////
+    that.render(); //////
+
     var obj = {
       type: "DELETE"
     };
   } else {
+
+    this.followState = 'following';  ///////
+    that.render(); /////////
+
     var obj = {
       type: "POST"
     };
